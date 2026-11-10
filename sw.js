@@ -1,6 +1,6 @@
 // Service worker básico: guarda la app para abrirla sin conexión.
 // Si cambias archivos y quieres forzar la actualización, sube el número de CACHE.
-const CACHE = 'mi-prime-v1';
+const CACHE = 'mi-prime-v2';
 const SHELL = [
   './', 'index.html', 'style.css', 'app.js', 'firebase-config.js',
   'manifest.json', 'icon.svg',
