@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Cada usuario solo puede leer y escribir lo que cuelga de su propio uid:
+    //   users/{uid}/plans/...              (meses: hábitos y metas)
+    //   users/{uid}/months/{YYYY-MM}/days/{YYYY-MM-DD}   (tus días)
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Todo lo demás está cerrado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

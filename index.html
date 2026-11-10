@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mi Prime</title>
+  <meta name="description" content="Hábitos y metas día a día, sincronizados entre tu celular y tu computadora.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Mi Prime">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Pantalla: faltan las claves de Firebase -->
+  <div id="screen-setup" class="screen hidden">
+    <div class="card center-card">
+      <div class="logo big"></div>
+      <h1>Falta configurar Firebase</h1>
+      <p class="muted">Abre el archivo <b>firebase-config.js</b>, pega las claves de tu proyecto de Firebase y vuelve a subir el archivo. Los pasos están en la guía.</p>
+    </div>
+  </div>
+
+  <!-- Pantalla: inicio de sesión -->
+  <div id="screen-login" class="screen hidden">
+    <div class="card center-card">
+      <div class="logo big"></div>
+      <h1>Mi Prime</h1>
+      <p class="muted">Tus hábitos y metas, día a día. Sincronizados entre tu celular y tu computadora.</p>
+      <button id="loginBtn" class="btn primary wide">
+        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/></svg>
+        Entrar con Google
+      </button>
+      <p id="loginError" class="error hidden"></p>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="logo"></span><span>Mi Prime</span></div>
+      <div class="top-right">
+        <span id="syncPill" class="pill ok">Sincronizado</span>
+        <button id="avatarBtn" class="avatar" aria-label="Cuenta"></button>
+      </div>
+    </header>
+    <div id="userMenu" class="menu hidden">
+      <div id="userName" class="menu-name"></div>
+      <div id="userEmail" class="muted small"></div>
+      <button id="logoutBtn" class="btn ghost wide">Cerrar sesión</button>
+    </div>
+
+    <main>
+      <section id="view-hoy" class="view">
+        <div id="hoyHead"></div>
+        <div id="hoyAlert"></div>
+        <div id="hoyList" class="list"></div>
+        <div class="card note-card">
+          <label for="note" class="card-title">¿Qué hice hoy?</label>
+          <textarea id="note" rows="3" maxlength="600" placeholder="Una línea basta…"></textarea>
+          <div id="noteState" class="muted small"></div>
+        </div>
+      </section>
+      <section id="view-semana" class="view hidden"></section>
+      <section id="view-mes" class="view hidden"></section>
+      <section id="view-horario" class="view hidden"></section>
+    </main>
+
+    <nav class="tabbar" aria-label="Secciones">
+      <button data-tab="hoy" class="on">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg><span>Hoy</span>
+      </button>
+      <button data-tab="semana">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Semana</span>
+      </button>
+      <button data-tab="mes">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg><span>Mes</span>
+      </button>
+      <button data-tab="horario">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Horario</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Editor de mes -->
+  <div id="modal" class="modal hidden"><div class="sheet" id="sheet"></div></div>
+  <div id="toast" class="toast" role="status"></div>
+
+  <noscript>Mi Prime necesita JavaScript para funcionar.</noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
