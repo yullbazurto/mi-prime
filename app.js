@@ -7,7 +7,7 @@
 import { firebaseConfig } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
-  getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect,
+  getAuth, GoogleAuthProvider, signInWithPopup,
   onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
@@ -948,14 +948,16 @@ $('#loginBtn').addEventListener('click', async () => {
   try {
     await signInWithPopup(auth, provider);
   } catch (e) {
-    if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
-      return signInWithRedirect(auth, provider);
-    }
+    // Nota: no usamos signInWithRedirect; Safari (iPhone) lo rompe por la partición de almacenamiento.
     if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return;
     console.error(e);
-    err.textContent = e.code === 'auth/unauthorized-domain'
-      ? 'Este dominio no está autorizado en Firebase (Authentication → Configuración → Dominios autorizados).'
-      : `No se pudo iniciar sesión (${e.code || e.message}).`;
+    if (e.code === 'auth/unauthorized-domain') {
+      err.textContent = 'Este dominio no está autorizado en Firebase (Authentication → Configuración → Dominios autorizados).';
+    } else if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
+      err.textContent = 'Tu navegador bloqueó la ventana de Google. Permite las ventanas emergentes para este sitio, o ábrelo directamente en Safari/Chrome (no desde WhatsApp u otra app).';
+    } else {
+      err.textContent = `No se pudo iniciar sesión (${e.code || e.message}).`;
+    }
     err.classList.remove('hidden');
   }
 });
